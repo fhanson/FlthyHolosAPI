@@ -118,7 +118,7 @@ public:
     * @brief Stops whatever lights are playing
     * 
     */
-    void StopLights(void);
+    void StopServos(void);
 
     /**
      * @brief Set the Holoprojector color
@@ -220,52 +220,5 @@ protected:
     int refreshSpeed;
 
 };
-
-using namespace std;
-//ToString
-inline String ToString (double d)
-{
-	char buffer[32];
-	snprintf(buffer, sizeof(buffer), "%g", d);
-	return buffer;
-}
-inline String ToString (float d)
-{
-	char buffer[16];
-	snprintf(buffer, sizeof(buffer), "%g", d);
-	return buffer;
-}
-inline String ToString (char a)
-{
-	return String(a).c_str();
-}
-inline String ToString (const char* a)
-{
-	return String(a).c_str();
-}
-inline String ToString (int number)
-{
-	return String(number).c_str();
-}
-inline String ToString (int number, String thing)
-{
-	String Prefix = "";
-	if (thing == "00")
-	{
-		if (number <= 9)
-		{
-			Prefix = "0";	
-		}
-	}
-	return (Prefix + String(number)).c_str();
-}
-inline String ToString (bool d)
-{
-	if (d)
-	{
-		return "true";	
-	}
-	return "false";
-}
 
 #endif
