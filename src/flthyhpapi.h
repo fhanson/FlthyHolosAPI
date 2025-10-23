@@ -149,6 +149,34 @@ public:
     void SetHPColor(int c);
 
     /**
+     * @brief Flash the projectors with a color
+     * hp - Holoprojector Selection:
+     * F - Front
+     * R - Rear
+     * T - Top
+     * A - All
+     * @param hp the holoprojector (F,R,T,A)
+     * 
+     * C - Color Value from the list below:
+     * 1 - Red
+     * 2 - Yellow
+     * 3 - Green
+     * 4 - Cyan (Aqua)
+     * 5 - Blue
+     * 6 - Magenta
+     * 7 - Orange
+     * 8 - Purple
+     * 9 - White
+     * 0 - Random
+     * @param c the color (0-9)
+     * @param t the duration in seconds (integer)
+     */
+    void Projector(String hp, int c,int t);
+    void Projector(String hp, int c);
+    void Projector(int c,int t);
+    void Projector(int c);
+
+    /**
      * @brief Set the Holoprojector to Pulse a color
      * hp - Holoprojector Selection:
      * F - Front
@@ -191,6 +219,8 @@ public:
     void Rainbow(String hp);
     void Rainbow(int t);
     void Rainbow(void);
+
+    void ShortCircuit(void);
 
 
 

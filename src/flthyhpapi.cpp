@@ -117,12 +117,34 @@ void FlthyHP::begin(const uint16_t refspeed)
 
 void FlthyHP::sendCommand(String command)
 {
-    transmit(command,false);
+    switch (connectionType)
+    {
+        case 0x01:
+            String serialcommand = command + "\r";
+            transmit(serialcommand,false);
+        case 0x02:
+            String serialcommandcmd = command + "\r";
+            transmit(serialcommand,false);
+        case 0x03:
+            transmit(command,false);
+        default: break;
+    }
 }
 
 void FlthyHP::transmit(String command)
 {
-    transmit(command,false);
+    switch (connectionType)
+    {
+        case 0x01:
+            String cmd = command + "\r";
+            transmit(cmd,false);
+        case 0x02:
+            String cmd2 = command + "\r";
+            transmit(cmd2,false);
+        case 0x03:
+            transmit(command,false);
+        default: break;
+    }
 }
 
 void FlthyHP::transmit(String command, bool retry)
@@ -237,42 +259,14 @@ void FlthyHP::StopServos(void) {
     sendCommand(msg);
 }
 
-void FlthyHP::SetHPColor(String hp, int c, int t) {
-    hp.toUpperCase();
-    if (hp != "F" && hp  != "R" && hp  != "T" && hp  != "A" ) return;
-    if ( t < 0 ) return;
-    if ( c < 0 || c > 9 ) return;
-    String msg = hp  + "O6" + String(c) + "|" + String(t);
-    sendCommand(msg);
-}
 
-void FlthyHP::SetHPColor(String hp, int c) {
-    hp.toUpperCase();
-    if (hp != "F" && hp != "R" && hp != "T" && hp != "A" ) return;
-    if ( c < 0 || c > 9 ) return;
-    String msg = hp  + "O6" + String(c);
-    sendCommand(msg);
-}
-
-void FlthyHP::SetHPColor(int c, int t) {
-    if ( t < 0 ) return;
-    if ( c < 0 || c > 9 ) return;
-    String msg = "AO6" + String(c) + "|" + String(t);
-    sendCommand(msg);
-}
-
-void FlthyHP::SetHPColor(int c) {
-    if ( c < 0 || c > 9 ) return;
-    String msg = "AO6" + String(c);
-    sendCommand(msg);
-}
 
 void FlthyHP::Pulse(String hp, int c, int t) {
     hp.toUpperCase();
     if (hp != "F" && hp  != "R" && hp  != "T" && hp  != "A" ) return;
     if ( t < 0 ) return;
     if ( c < 0 || c > 9 ) return;
-    String msg = hp  + "O3" + String(c) + "|" + String(t);
+    String msg = hp  + "003" + String(c) + "|" + String(t);
     sendCommand(msg);
 }
 
@@ -280,20 +274,20 @@ void FlthyHP::Pulse(String hp, int c) {
     hp.toUpperCase();
     if (hp != "F" && hp  != "R" && hp  != "T" && hp  != "A" ) return;
     if ( c < 0 || c > 9 ) return;
-    String msg = hp  + "O3" + String(c);
+    String msg = hp  + "003" + String(c);
     sendCommand(msg);
 }
 
 void FlthyHP::Pulse(int c, int t) {
     if ( t < 0 ) return;
     if ( c < 0 || c > 9 ) return;
-    String msg = "AO3" + String(c) + "|" + String(t);
+    String msg = "A003" + String(c) + "|" + String(t);
     sendCommand(msg);
 }
 
 void FlthyHP::Pulse(int c) {
     if ( c < 0 || c > 9 ) return;
-    String msg = "AO3" + String(c);
+    String msg = "A003" + String(c);
     sendCommand(msg);
 }
 
@@ -320,5 +314,70 @@ void FlthyHP::Rainbow(String hp, int t) {
     if (hp != "F" && hp  != "R" && hp  != "T" && hp  != "A" ) return;
     if (t < 0 ) return;
     String msg = hp  + "007," + "|" + String(t);
+    sendCommand(msg);
+}
+
+void FlthyHP::SetHPColor(String hp, int c, int t) {
+    hp.toUpperCase();
+    if (hp != "F" && hp  != "R" && hp  != "T" && hp  != "A" ) return;
+    if ( t < 0 ) return;
+    if ( c < 0 || c > 9 ) return;
+    String msg = hp  + "006" + String(c) + "|" + String(t);
+    sendCommand(msg);
+}
+
+void FlthyHP::SetHPColor(String hp, int c) {
+    hp.toUpperCase();
+    if (hp != "F" && hp != "R" && hp != "T" && hp != "A" ) return;
+    if ( c < 0 || c > 9 ) return;
+    String msg = hp  + "006" + String(c);
+    sendCommand(msg);
+}
+
+void FlthyHP::SetHPColor(int c, int t) {
+    if ( t < 0 ) return;
+    if ( c < 0 || c > 9 ) return;
+    String msg = "A006" + String(c) + "|" + String(t);
+    sendCommand(msg);
+}
+
+void FlthyHP::SetHPColor(int c) {
+    if ( c < 0 || c > 9 ) return;
+    String msg = "A006" + String(c);
+    sendCommand(msg);
+}
+
+void FlthyHP::Projector(String hp, int c, int t) {
+    hp.toUpperCase();
+    if (hp != "F" && hp  != "R" && hp  != "T" && hp  != "A" ) return;
+    if ( t < 0 ) return;
+    if ( c < 0 || c > 9 ) return;
+    String msg = hp  + "002" + String(c) + "|" + String(t);
+    sendCommand(msg);
+}
+
+void FlthyHP::Projector(String hp, int c) {
+    hp.toUpperCase();
+    if (hp != "F" && hp != "R" && hp != "T" && hp != "A" ) return;
+    if ( c < 0 || c > 9 ) return;
+    String msg = hp  + "002" + String(c);
+    sendCommand(msg);
+}
+
+void FlthyHP::Projector(int c, int t) {
+    if ( t < 0 ) return;
+    if ( c < 0 || c > 9 ) return;
+    String msg = "A002" + String(c) + "|" + String(t);
+    sendCommand(msg);
+}
+
+void FlthyHP::Projector(int c) {
+    if ( c < 0 || c > 9 ) return;
+    String msg = "A002" + String(c);
+    sendCommand(msg);
+}
+
+void FlthyHP::ShortCircuit(void) {
+    String msg = "A0052";
     sendCommand(msg);
 }
